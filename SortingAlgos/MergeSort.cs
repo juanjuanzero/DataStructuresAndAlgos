@@ -88,8 +88,8 @@ namespace SortingAlgos
             else
             {
                 //if array size is > 2, get the middle, copy into two arrays and compare
-                int mid = -1;
-                if(numbers.Length % 2 == 0)
+                int mid;
+                if (numbers.Length % 2 == 0)
                 {
                     //even
                     mid = (numbers.Length / 2) - 1; //l/2 is the start of the right side.
