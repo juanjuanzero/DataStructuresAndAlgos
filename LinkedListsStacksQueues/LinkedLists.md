@@ -80,24 +80,104 @@ Take the current state of our Linked List with one node that has the value "Worl
 
 |  Head |
 |-      |
-| Value = "World" Previous = null Next = null |
+| Value = "World" <br/> Previous = null<br/>  Next = null |
 
-If we wanted to add "Hello" to the Head we would call AddHead("Hello"), which then would update the current head and set the added item as the new head for the Doubly Linked List.
+If we wanted to add "Hello" to the Head we would call AddHead("Hello"), which then would update the current head and set the added item as the new head for the Doubly Linked List. We'll go ahead and label the items with numbers so that its easier to see what is going on and where each points to the other.
 
-|Head|  Tail |
+|Head <br/>  (Item 0)|  Tail <br/>  (Item 1) |
 |-      |-      |
-| Value = "Hello" Previous = null Next = prev Head | Value = "World" Previous = null Next = null |
+| Value = "Hello"<br/>  Previous = null<br/>  Next = (Item 1) | Value = "World"<br/>  Previous = (Item 0) <br/> Next = null |
 
 Then we wanted to add another word, AddHead("Hoy")
 
-|Head|- |  Tail |
+|Head <br/> (Item 0) | Item (1) |  Tail <br/> (Item 2) |
 |-|-      |-      |
-|Value = "Hoy" Previous = null Next = prev Head | Value = "Hello" Previous = null Next = tail | Value = "World" Previous = null Next = null |
+|Value = "Hoy" <br/> Previous = null<br/>  Next = (Item 1) | Value = "Hello"<br/>  Previous = (Item 0)<br/>  Next = (Item 2) | Value = "World"<br/>  Previous = (Item 1)<br/>  Next = null |
 
 Notice how the tail always stays the same while the head gets updated, and the only items we touch is the head. The time complexity of this item would be O(1), constant time.
 
 ## Finding Items
-When you are looking for items in the list
+When you are looking for items in the list, you would have to traverse the entire linked list, which makes Finding Items an O(n) time complexity. In the find method we just start at the head and check if the value matches the value we are looking for. 
+
+```C#
+public DoublyLinkedListNode<T> Find(T value)
+{
+    if(Head == null)
+    {
+        return null;
+    }
+
+    DoublyLinkedListNode<T> current = Head;
+    while(current != null)
+    {
+        if (current.Value.Equals(value))
+        {
+            return current;
+        }
+
+        current = current.Next;
+    }
+
+    return null;
+}
+```
+If the head is null, we return null. In the while loop we check if the current pointer is null, while resetting the current to the next node at the end of the while block. We either find the one that equals the value or return null.
+
+The Find method is used in the Contains method and also in the remove method.
+
+## Removing Items.
+If you are removing items then you have to handle 3 cases when you know you can remove an item. You can only remove an item if it is in the linked list. So we call the Find method and check if the result is null. If it is not null then we have to check if the value is either the Head, the Tail or somewhere in the middle. 
+
+```C#
+public bool Remove(T item)
+{
+    DoublyLinkedListNode<T> x = Find(item);
+    if (x == null)
+    {
+        return false;
+    }
+
+    //check if its the head or the tail
+    DoublyLinkedListNode<T> prev = x.Previous;
+    DoublyLinkedListNode<T> next = x.Next;
+
+    //if its the head
+    if (prev == null)
+    {
+        Head = next; //reset the head as the next item of the head node
+        if (Head != null)
+        {
+            Head.Previous = null; //set the value of the previous to null since it was removed.
+        }
+    }
+    else
+    {
+        //its not the head, its in the middle
+        prev.Next = next;
+    }
+
+    //if we are removing the tail
+    if (next == null)
+    {
+        Tail = prev; //reset the tail property of the linked list
+        if (Tail != null)
+        {
+            Tail.Next = null; //update the next prop to null since it was removed.
+        }
+    }
+    else
+    {
+        //its not the tail
+        next.Previous = prev;
+    }
+
+    Count--; //decrement 
+    return true;
+
+}
+```
+
+We check if its the head or the tail by checking if the Previous and Next properties of the found node is null. If its either one of them or both, then we update the Head or Tail accordingly using the next and previous properties of the found node. 
 
 ## Examples in the Wild?
 Some examples include:
