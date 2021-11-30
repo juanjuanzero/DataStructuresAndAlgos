@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\LinkedListsStacksQueues\LinkedListsStacksQueues.csproj" />
     <ProjectReference Include="..\SortingAlgos\SortingAlgos.csproj" />
     <ProjectReference Include="..\StringManipulation\StringManipulation.csproj" />
   </ItemGroup>
