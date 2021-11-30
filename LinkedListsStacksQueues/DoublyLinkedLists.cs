@@ -111,7 +111,22 @@ namespace LinkedListsStacksQueues
 
         public IEnumerator<T> GetEnumerator()
         {
-            throw new NotImplementedException();
+            DoublyLinkedListNode<T> current = Head;
+            while(current != null)
+            {
+                yield return current.Value;
+                current = current.Next; //reset to the next value
+            }
+        }
+
+        public IEnumerator<T> GetReverseEnumerator()
+        {
+            DoublyLinkedListNode<T> current = Tail;
+            while(current != null)
+            {
+                yield return current.Value;
+                current = current.Previous; //reset to the next value
+            }
         }
 
         public bool Remove(T item)
@@ -160,6 +175,7 @@ namespace LinkedListsStacksQueues
             return true;
 
         }
+
         IEnumerator IEnumerable.GetEnumerator()
         {
             throw new NotImplementedException();
