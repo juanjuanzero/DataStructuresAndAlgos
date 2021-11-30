@@ -176,9 +176,10 @@ namespace LinkedListsStacksQueues
 
         }
 
+        //https://docs.microsoft.com/en-us/dotnet/api/system.collections.ienumerable.getenumerator?view=net-6.0
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return (IEnumerator) GetEnumerator();
         }
     }
 
